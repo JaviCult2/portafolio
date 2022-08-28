@@ -15,11 +15,10 @@ use App\Http\Controllers\Web\ProjectController;
 |
 */
 
-Route::get('/app/{any}', [VueController::class, 'render'])
+Route::get('/', [VueController::class, 'render'])
     ->where('any', '.*')
     ->name('web.vue');
 
 //Projects
-
-Route::get('web/app/index', [ProjectController::class, 'index'])
+Route::get('/index', [ProjectController::class, 'index'])
     ->name('web_project_index');
