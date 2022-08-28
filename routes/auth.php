@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Web\VueController;
-use App\Http\Controllers\Web\ProjectController;
+use App\Http\Controllers\Auth\VueController;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,11 +15,10 @@ use App\Http\Controllers\Web\ProjectController;
 |
 */
 
-Route::get('/app/{any}', [VueController::class, 'render'])
-    ->where('any', '.*')
-    ->name('web.vue');
+Route::get('/', [VueController::class, 'render'])
+   // ->where('any', '.*')
+    ->name('auth.vue');
 
-//Projects
-
-Route::get('web/app/index', [ProjectController::class, 'index'])
-    ->name('web_project_index');
+//Login
+Route::get('login/app/index', [LoginController::class, 'index'])
+    ->name('login_index');

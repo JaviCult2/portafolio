@@ -5,7 +5,7 @@ Vue.use(VueRouter);
 
 import App from "../views/App";
 
-const prefix = '/web/app';
+const prefix = '/login/app';
 
 let routes = [
     {

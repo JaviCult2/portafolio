@@ -20,17 +20,17 @@ Route::get('/app/{any}', [VueController::class, 'render'])
     ->name('admin.vue');
 
 //Project
-Route::get('web/app/index', [ProjectController::class, 'index'])
+Route::get('admin/app/index', [ProjectController::class, 'index'])
     ->name('admin_project_index');
 
-Route::post('web/app/create', [ProjectController::class, 'create'])
+Route::post('admin/app/create', [ProjectController::class, 'create'])
     ->name('admin_project_create');
 
-Route::post('web/app/update', [ProjectController::class, 'update'])
+Route::post('admin/app/update', [ProjectController::class, 'update'])
     ->name('admin_project_update');
 
-Route::post('web/app/delete/{id}', [ProjectController::class, 'delete'])
+Route::post('admin/app/delete/{id}', [ProjectController::class, 'delete'])
     ->name('admin_project_delete');
 
-Route::get('web/app/active/{id}', [ProjectController::class, 'active'])
+Route::get('admin/app/active/{id}', [ProjectController::class, 'active'])
     ->name('admin_project_active');

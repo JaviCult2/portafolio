@@ -13,6 +13,8 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/admin/app.js', 'public/js/admin').vue()
     .js('resources/js/web/app.js', 'public/js/web').vue()
+    .js('resources/js/auth/app.js', 'public/js/auth').vue()
     .less('resources/css/admin/app.less', 'public/css/admin')
-    .less('resources/css/web/app.less', 'public/css/web');
+    .less('resources/css/web/app.less', 'public/css/web')
+    .less('resources/css/auth/app.less', 'public/css/auth');
 
