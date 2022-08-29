@@ -20,17 +20,23 @@ Route::get('/app/{any}', [VueController::class, 'render'])
     ->name('admin.vue');
 
 //Project
+
 Route::get('admin/app/index', [ProjectController::class, 'index'])
-    ->name('admin_project_index');
+    ->name('admin_project_index')
+    ->middleware("auth.admin");
 
 Route::post('admin/app/create', [ProjectController::class, 'create'])
-    ->name('admin_project_create');
+    ->name('admin_project_create')
+    ->middleware("auth.admin");
 
 Route::post('admin/app/update', [ProjectController::class, 'update'])
-    ->name('admin_project_update');
+    ->name('admin_project_update')
+    ->middleware("auth.admin");
 
 Route::post('admin/app/delete/{id}', [ProjectController::class, 'delete'])
-    ->name('admin_project_delete');
+    ->name('admin_project_delete')
+    ->middleware("auth.admin");
 
 Route::get('admin/app/active/{id}', [ProjectController::class, 'active'])
-    ->name('admin_project_active');
+    ->name('admin_project_active')
+    ->middleware("auth.admin");

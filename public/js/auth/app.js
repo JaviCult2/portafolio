@@ -2235,12 +2235,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     login: function login() {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get(route('login_index', this.credentials)).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post(route('login_index', this.credentials)).then(function (response) {
         console.log("response", response);
         window.location = response.data;
       })["catch"](function (e) {
         console.log("Error...", e);
-      }); //window.location = "admin/app/home";
+      });
     }
   }
 });
@@ -2499,7 +2499,7 @@ __webpack_require__.r(__webpack_exports__);
 
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
-var prefix = '/login/app';
+var prefix = '';
 var routes = [{
   path: prefix + '/home',
   component: _views_App__WEBPACK_IMPORTED_MODULE_2__["default"],

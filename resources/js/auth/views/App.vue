@@ -75,7 +75,7 @@ export default {
         {
             login() {
 
-                axios.get(route('login_index', this.credentials)).then(response => {
+                axios.post(route('login_index', this.credentials)).then(response => {
 
                     console.log("response", response)
                     window.location = response.data;
@@ -83,8 +83,6 @@ export default {
                 }).catch(e => {
                     console.log("Error...", e)
                 })
-
-                //window.location = "admin/app/home";
             }
         },
 }

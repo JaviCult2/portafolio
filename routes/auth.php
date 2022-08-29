@@ -16,9 +16,9 @@ use App\Http\Controllers\Auth\LoginController;
 */
 
 Route::get('/', [VueController::class, 'render'])
-   // ->where('any', '.*')
+    ->where('any', '.*')
     ->name('auth.vue');
 
 //Login
-Route::get('login/app/index', [LoginController::class, 'index'])
+Route::post('login', [LoginController::class, 'index'])
     ->name('login_index');

@@ -9,7 +9,6 @@ class VueController extends Controller
 {
     public function render()
     {
-        //return "entre";
         return view('auth.index');
     }
 }
