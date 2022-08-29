@@ -21,5 +21,14 @@ Route::get('/app/{any}', [VueController::class, 'render'])
 
 //Projects
 
+
 Route::get('web/app/index', [ProjectController::class, 'index'])
     ->name('web_project_index');
+
+Route::get('/service/auth/projects', [ProjectController::class, 'index'])
+    ->name('web_project_index')->middleware('auth.visitor');
+
+Route::get('/service/open/projects', [ProjectController::class, 'index'])
+    ->name('web_project_index');
+
+
