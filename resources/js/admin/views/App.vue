@@ -1,8 +1,8 @@
 <template>
 
-    <v-app style="background: #4D4D81;">
+    <v-app class="bg-principal">
 
-        <div class="container" style="border-radius: 10px; margin: auto; background: #2d3748">
+        <div class="container bg-container">
 
             <v-data-table
                 :headers="headers"
@@ -12,7 +12,7 @@
             >
                 <template v-slot:top>
 
-                    <v-toolbar flat style="background: #4D4D81">
+                    <v-toolbar flat class="bg-toolbar">
 
                         <v-toolbar-title class="text-white"><b>My Projects</b></v-toolbar-title>
 
@@ -24,21 +24,21 @@
 
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn
-                                    color="primary"
-                                    dark
-                                    class="mb-2"
                                     v-bind="attrs"
                                     v-on="on"
+
+                                    class="mb-2"
+                                    color="#fff"
                                 >
-                                    Add
+                                    + Add
                                 </v-btn>
                             </template>
 
                             <v-card>
 
-                                <v-card-title>
-                                    <span class="text-h5">{{ formTitle }}</span>
-                                </v-card-title>
+                                <div class="p-3" style="background: #4D4D81">
+                                    <h5 class="text-white"><b> {{ formTitle }} </b></h5>
+                                </div>
 
                                 <v-card-text>
 
@@ -133,15 +133,15 @@
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn
-                                        color="blue darken-1"
-                                        text
+                                        dark
+                                        color="#4D4D81"
                                         @click="close"
                                     >
                                         Cancel
                                     </v-btn>
                                     <v-btn
-                                        color="blue darken-1"
-                                        text
+                                        dark
+                                        color="#4D4D81"
                                         @click="save"
                                     >
                                         Save
@@ -154,12 +154,12 @@
 
                         <v-dialog v-model="dialogDelete" max-width="500px">
                             <v-card>
-                                <v-card-title class="text-h5">Are you sure you want to delete this project?
+                                <v-card-title class="text-h5">Are you sure ?
                                 </v-card-title>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-                                    <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+                                    <v-btn color="#4D4D81" dark @click="closeDelete">Cancel</v-btn>
+                                    <v-btn color="#4D4D81" dark @click="deleteItemConfirm">OK</v-btn>
                                     <v-spacer></v-spacer>
                                 </v-card-actions>
                             </v-card>
@@ -244,7 +244,6 @@ export default {
                     developers: [v => !!v || 'The developers is/are required'],
                 },
 
-            desserts: [],
             editedIndex: -1,
             editedItem: {
                 id: '',
@@ -291,17 +290,6 @@ export default {
         removeDev(index) {
             this.editedItem.developers.splice(index, 1);
         },
-        clearForm() {
-            this.$refs.form.reset();
-        },
-        validateData() {
-
-            if (this.$refs.form.validate()) {
-                this.saveData()
-            } else {
-                console.log("Validar data")
-            }
-        },
 
         initialize() {
 
@@ -319,7 +307,8 @@ export default {
 
             axios.post(route('admin_project_create', this.editedItem)).then(response => {
 
-                console.log("Data:", response)
+                this.editedItem.developers = []
+                this.$refs.form.reset();
 
             }).catch(e => {
                 console.log("Error...")
@@ -411,16 +400,16 @@ export default {
 
         save() {
 
-            // if (this.$refs.form.validate()) {
-            if (this.editedIndex > -1) {
-                Object.assign(this.projects[this.editedIndex], this.editedItem)
-                this.update()
-            } else {
-                this.projects.push(this.editedItem)
-                this.create();
+            if (this.$refs.form.validate()) {
+                if (this.editedIndex > -1) {
+                    Object.assign(this.projects[this.editedIndex], this.editedItem)
+                    this.update()
+                } else {
+                    this.projects.push(this.editedItem)
+                    this.create();
+                }
+                this.close()
             }
-            this.close()
-            //}
         },
     },
     watch: {
@@ -435,5 +424,19 @@ export default {
 </script>
 
 <style scoped>
+
+.bg-principal {
+    background: #2d3748 !important;
+}
+
+.bg-container {
+    margin: auto;
+    border-radius: 10px;
+    background: #4D4D81
+}
+
+.bg-toolbar {
+    background: #2d3748 !important;
+}
 
 </style>

@@ -29,12 +29,6 @@
 
                 <v-card-text>
 
-                    <!--
-                    <div class="text-center my-2">
-                        <img :src="this.character.image" :alt="this.character.name" class="w-100">
-                    </div>
-                    -->
-
                     <v-stepper v-model="e6" vertical>
 
                         <v-stepper-step step="1" @click="e6 = 1" color="#4D4D81">
@@ -44,10 +38,10 @@
                         <v-stepper-content step="1">
                             <v-card color="" class="p-3">
                                 <p class="text-black">Name: <br> <b class="c-red">{{ project.name }}</b></p>
-                                <p class="text-black">Project Manager: <br> <b class="c-red">{{
-                                        project.project_manager
-                                    }}</b></p>
-                                <p class="text-black">Created: <br> <b class="c-red">{{ project.created_at }}</b></p>
+                                <p class="text-black">Project Manager: <br>
+                                    <b class="c-red">{{ project.project_manager }}</b>
+                                </p>
+                                <p class="text-black">Created: <br> <b class="c-red">{{ project.create }}</b></p>
                             </v-card>
                         </v-stepper-content>
 
@@ -74,7 +68,7 @@
                                             mdi-account-circle
                                         </v-icon>
                                         <b class="c-red">
-                                        {{ item.name }} {{ item.last_name }}</b>
+                                            {{ item.name }} {{ item.last_name }}</b>
                                     </p>
                                     <hr>
                                 </div>

@@ -54,7 +54,7 @@
 <script>
 
 import axios from 'axios';
-import ProjectDetail from "../../admin/components/ProjectDetail";
+import ProjectDetail from "../components/ProjectDetail";
 
 export default {
     name: "App",

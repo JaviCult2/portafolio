@@ -1,26 +1,30 @@
 <template>
 
-    <v-app class="container-fluid bg-principal">
+    <v-app class="bg-principal">
 
-        <v-card>
+        <v-card width="500" class="container bg-container" elevation="5">
+
+            <div class="p-3" style="background: #4D4D81">
+                <h3 class="text-white"><b>Welcome</b></h3>
+            </div>
 
             <v-card-text>
 
                 <v-form v-model="valid" ref="form" class="mt-3">
 
                     <v-text-field
-                        label="Name"
+                        label="User"
                         v-model="credentials.user"
-                        :rules="rules.name"
+                        :rules="rules.user"
                         required
                         dense
                         solo
                     ></v-text-field>
 
                     <v-text-field
-                        label="Project Manager"
+                        label="Password"
                         v-model="credentials.password"
-                        :rules="rules.manager"
+                        :rules="rules.password"
                         required
                         dense
                         solo
@@ -34,7 +38,9 @@
                 <v-spacer/>
 
                 <v-btn
-                    v-on:click="login">
+                    v-on:click="login"
+                    color="#4D4D81"
+                    dark>
                     Login
                 </v-btn>
 
@@ -49,7 +55,6 @@
 <script>
 
 import axios from 'axios';
-import ProjectDetail from "../../admin/components/ProjectDetail";
 
 export default {
     name: "App",
@@ -64,55 +69,44 @@ export default {
 
         rules:
             {
-                name: [v => !!v || 'The name is required'],
-                manager: [v => !!v || 'The project manager is required'],
-                description: [v => !!v || 'The description is required'],
-                enterprise: [v => !!v || 'The enterprise is required'],
-                developers: [v => !!v || 'The developers is/are required'],
+                user: [v => !!v || 'The user is required'],
+                password: [v => !!v || 'The password is required'],
             },
     }),
     methods:
         {
             login() {
 
-                axios.post(route('login_index', this.credentials)).then(response => {
+                if (this.$refs.form.validate()) {
 
-                    console.log("response", response)
-                    window.location = response.data;
+                    axios.post(route('login_index', this.credentials)).then(response => {
 
-                }).catch(e => {
-                    console.log("Error...", e)
-                })
-            }
+                        this.$refs.form.reset();
+
+                        window.location = response.data;
+
+                    }).catch(e => {
+                        console.log("Error...", e)
+                    })
+
+                } else {
+                    console.log("Error")
+                }
+            },
         },
 }
 </script>
 
 <style scoped>
 
-.c-pink {
-    background: #BE74B5 !important;
-}
-
-.c-blue {
-    background: #4D4D81 !important;
-}
-
-.c-green {
-    background-color: #1ABC9C !important;
-}
-
-.c-red {
-    background-color: #C70039 !important;
-}
-
-.c-purple {
-    background-color: #450A3B !important;
-}
-
 .bg-principal {
     background: #2d3748 !important;
 }
 
+.bg-container {
+    margin: auto;
+    border-radius: 10px;
+    background: #2d3748
+}
 
 </style>

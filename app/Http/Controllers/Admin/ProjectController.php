@@ -19,6 +19,7 @@ class ProjectController extends Controller
     public function create(Request $request)
     {
         try {
+            \DB::beginTransaction();
 
             $project = new Project;
 
@@ -26,56 +27,19 @@ class ProjectController extends Controller
 
             $project->saveOrFail();
 
-            foreach ($request->developers as $item) {
-
-                foreach ($item as $key => $value) {
-
-                    ($key == "name") ? $name = $value : $last_name = $value;
-                }
-
-                $developer = new Developer;
-
-                $developer->fk_id_project = $project->id;
-                $developer->name = $name;
-                $developer->last_name = $last_name;
-
-                $developer->saveOrFail();
-            }
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Save Success'
-            ]);
-
-        } catch (\Exception $ex) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Save Error'
-            ]);
-        }
-    }
-
-    public function update(Request $request)
-    {
-        try {
-
-            $project = Project::find($request->id);
-
-            $project->fill($request->all());
-
-            $project->saveOrFail();
-
-            Developer::where('fk_id_project', $request->id)->delete();
-
-            //dd($request->developers);
-
-            if ($request->developers)
-            {
+            if ($request->developers) {
                 foreach ($request->developers as $item) {
 
                     foreach ($item as $key => $value) {
 
-                        ($key == "name") ? $name = $value : $last_name = $value;
+                        switch ($key) {
+                            case "name":
+                                $name = $value;
+                                break;
+                            case "last_name":
+                                $last_name = $value;
+                                break;
+                        }
                     }
 
                     $developer = new Developer;
@@ -88,54 +52,125 @@ class ProjectController extends Controller
                 }
             }
 
+            \DB::commit();
             return response()->json([
                 'success' => true,
                 'message' => 'Save Success'
             ]);
 
-        } catch (\Exception $ex) {
+        } catch (\Exception $exception) {
+            \DB::rollBack();
             return response()->json([
                 'success' => false,
-                'message' => 'Save Error'
+                'message' => 'Save Error',
+                'error' => $exception->getMessage() . ' ' . $exception->getFile() . ' ' . $exception->getLine(),
+            ]);
+        }
+    }
+
+    public function update(Request $request)
+    {
+        try {
+            \DB::beginTransaction();
+
+            $project = Project::find($request->id);
+
+            $project->fill($request->all());
+
+            $project->saveOrFail();
+
+            Developer::where('fk_id_project', $request->id)->delete();
+
+            if ($request->developers) {
+                foreach ($request->developers as $item) {
+
+                    foreach ($item as $key => $value) {
+
+                        switch ($key) {
+                            case "name":
+                                $name = $value;
+                                break;
+                            case "last_name":
+                                $last_name = $value;
+                                break;
+                        }
+                    }
+
+                    $developer = new Developer;
+
+                    $developer->fk_id_project = $project->id;
+                    $developer->name = $name;
+                    $developer->last_name = $last_name;
+
+                    $developer->saveOrFail();
+                }
+            }
+
+            \DB::commit();
+            return response()->json([
+                'success' => true,
+                'message' => 'Save Success'
+            ]);
+
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Update Error',
+                'error' => $exception->getMessage() . ' ' . $exception->getFile() . ' ' . $exception->getLine(),
             ]);
         }
     }
 
     public function delete($id)
     {
+
         try {
+            \DB::beginTransaction();
+
+            Developer::where('fk_id_project', $id)->delete();
+
             Project::find($id)->delete();
 
+            \DB::commit();
             return response()->json([
                 'success' => true,
                 'message' => 'Delete success'
             ]);
 
-        } catch (\Exception $ex) {
+        } catch (\Exception $exception) {
+            \DB::rollBack();
             return response()->json([
                 'success' => false,
-                'message' => 'Delete Error'
+                'message' => 'Delete Error',
+                'error' => $exception->getMessage() . ' ' . $exception->getFile() . ' ' . $exception->getLine(),
             ]);
         }
     }
 
     public function active($id)
     {
-        $project = Project::find($id);
+        try {
+            \DB::beginTransaction();
 
-        $project->active = !$project->active;
+            $project = Project::find($id);
 
-        if ($project->save()) {
+            $project->active = !$project->active;
 
+            $project->saveOrFail();
+
+            \DB::commit();
             return response()->json([
                 'success' => true,
                 'message' => 'Active success'
             ]);
 
-        } else {
+        } catch (\Exception $exception) {
+            \DB::rollBack();
             return response()->json([
                 'success' => false,
-                'message' => 'Active Error'
+                'message' => 'Active Error',
+                'error' => $exception->getMessage() . ' ' . $exception->getFile() . ' ' . $exception->getLine(),
             ]);
         }
     }
